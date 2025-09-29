@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubi Akter - Personal Portfolio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <script>
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark')
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* -- ADVANCED SCROLL EFFECTS STYLES -- */
+
+        /* 1. Scroll Progress Bar */
+        #scroll-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #3b82f6, #14b8a6);
+            width: 0%;
+            z-index: 100;
+            transition: width 0.1s ease-out;
+        }
+        
+        /* 2. Parallax Hero Background */
+        #hero-section {
+            background-color: #f1f5f9; /* slate-100 */
+            background-attachment: fixed; /* Fallback for no-JS */
+        }
+        .dark #hero-section {
+            background-color: #1e293b; /* slate-800 */
+        }
+
+        /* 3. Enhanced Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transition: all 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.reveal-up { transform: translateY(50px); }
+        .reveal[data-scroll-effect="slide-in-left"] { transform: translateX(-50px); }
+        .reveal[data-scroll-effect="slide-in-right"] { transform: translateX(50px); }
+        .reveal[data-scroll-effect="zoom-in"] { transform: scale(0.9); }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translate(0, 0) scale(1);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #3b82f6, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header-shadow {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .dark .header-shadow {
+             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-700 dark:bg-slate-900 dark:text-slate-300 transition-colors duration-500">
+    
+    <div id="scroll-progress-bar"></div>
+
+    <header id="header" class="bg-white/80 backdrop-blur-md dark:bg-slate-900/80 fixed top-0 left-0 right-0 z-50 transition-shadow duration-300">
+        <nav class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold gradient-text">Rubi Akter</a>
+            <div class="flex items-center">
+                <div class="hidden md:flex space-x-6 items-center">
+                    <a href="#about" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">About</a>
+                    <a href="#experience" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Experience</a>
+                    <a href="#education" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Education</a>
+                    <a href="#contact" class="hover:text-blue-500 dark:hover:text-blue-400 transition-colors">Contact</a>
+                </div>
+                
+                <button id="theme-toggle" type="button" class="text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 focus:outline-none rounded-lg text-sm p-2.5 ml-4">
+                    <i id="theme-toggle-dark-icon" class="w-5 h-5 hidden" data-feather="moon"></i>
+                    <i id="theme-toggle-light-icon" class="w-5 h-5 hidden" data-feather="sun"></i>
+                </button>
+
+                <button id="mobile-menu-button" class="md:hidden ml-2">
+                    <i data-feather="menu"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white dark:bg-slate-800">
+            <a href="#about" class="block py-2 px-6 hover:bg-slate-100 dark:hover:bg-slate-700">About</a>
+            <a href="#experience" class="block py-2 px-6 hover:bg-slate-100 dark:hover:bg-slate-700">Experience</a>
+            <a href="#education" class="block py-2 px-6 hover:bg-slate-100 dark:hover:bg-slate-700">Education</a>
+            <a href="#contact" class="block py-2 px-6 hover:bg-slate-100 dark:hover:bg-slate-700">Contact</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero-section" class="min-h-screen flex items-center pt-20 transition-colors duration-500">
+            <div class="container mx-auto px-4 sm:px-6 flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+                <div class="md:w-1/2 text-center md:text-left">
+                    <h1 class="text-4xl md:text-6xl font-bold text-slate-800 dark:text-slate-100 leading-tight">
+                        Rubi Akter
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl font-light mt-2">
+                        <span class="gradient-text font-medium" id="typed-text"></span>
+                    </h2>
+                    <p class="mt-4 text-slate-600 dark:text-slate-400 max-w-lg mx-auto md:mx-0">
+                        A dedicated and compassionate nursing professional with a commitment to providing high-quality patient care.
+                    </p>
+                    <div class="mt-8 flex justify-center md:justify-start gap-4">
+                        <a href="#contact" class="bg-blue-500 text-white font-medium py-3 px-6 rounded-lg shadow-lg hover:bg-blue-600 transition-all transform hover:scale-105">Contact Me</a>
+                        <a href="#experience" class="bg-white text-slate-700 font-medium py-3 px-6 rounded-lg shadow-lg hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-200 dark:hover:bg-slate-600 transition-all transform hover:scale-105">View Experience</a>
+                    </div>
+                </div>
+                <div class="md:w-1/3">
+                     <div class="w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 mx-auto rounded-full overflow-hidden shadow-2xl border-4 border-white dark:border-slate-800 ring-4 ring-blue-500/50">
+                        <img src="/Picture1.jpg" alt="Rubi Akter" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="py-20">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12 reveal reveal-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-slate-100">About Me</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2">My professional goals and personal strengths.</p>
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-8 md:p-12 rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-slate-900/50 max-w-4xl xl:max-w-5xl mx-auto reveal" data-scroll-effect="zoom-in">
+                    <h3 class="font-semibold text-xl mb-4 text-blue-600 dark:text-blue-400">Career Objective</h3>
+                    <p class="mb-8 text-slate-600 dark:text-slate-400">I want to be a member of a dynamic organization that will help me to think differently and give me the opportunity to fulfill my career plan and make use of my potential for the betterment of the organization. I am prepared to face and handle any career odds and possess firm determination to fight all obstacles. By contributing to your organization, I want to get the chance to participate in the built-up process of our country.</p>
+                    <h3 class="font-semibold text-xl mb-4 text-teal-600 dark:text-teal-400">Personal Strengths</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-6 gap-x-8">
+                        <div class="flex items-center gap-3"><i data-feather="check-circle" class="text-teal-500"></i><span>Hard Worker</span></div>
+                        <div class="flex items-center gap-3"><i data-feather="check-circle" class="text-teal-500"></i><span>Sincere & Punctual</span></div>
+                        <div class="flex items-center gap-3"><i data-feather="check-circle" class="text-teal-500"></i><span>Honest & Obedient</span></div>
+                        <div class="flex items-center gap-3"><i data-feather="check-circle" class="text-teal-500"></i><span>Strong Communicator</span></div>
+                        <div class="flex items-center gap-3"><i data-feather="check-circle" class="text-teal-500"></i><span>Pro-active & Analytical</span></div>
+                        <div class="flex items-center gap-3"><i data-feather="check-circle" class="text-teal-500"></i><span>Highly Motivated</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience" class="py-20 bg-slate-100 dark:bg-slate-800/50 transition-colors duration-500">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12 reveal reveal-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-slate-100">Professional Experience</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2">My hands-on clinical experience.</p>
+                </div>
+                <div class="max-w-3xl mx-auto">
+                    <div class="relative border-l-2 border-blue-200 dark:border-slate-700">
+                        <div class="mb-10 ml-6">
+                             <span class="absolute flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-slate-700 rounded-full -left-4 ring-8 ring-white dark:ring-slate-800 reveal" data-scroll-effect="zoom-in">
+                                <i data-feather="briefcase" class="text-blue-500 dark:text-blue-400"></i>
+                            </span>
+                            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md reveal" data-scroll-effect="slide-in-right">
+                                <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Clinical Practice</h3>
+                                <p class="text-blue-500 dark:text-blue-400 font-medium">3 Years</p>
+                                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Rangamati General Hospital</p>
+                                <p class="mt-2 text-slate-600 dark:text-slate-400">Gained comprehensive hands-on experience in various departments, providing direct patient care and support.</p>
+                            </div>
+                        </div>
+                        <div class="mb-10 ml-6">
+                             <span class="absolute flex items-center justify-center w-8 h-8 bg-blue-100 dark:bg-slate-700 rounded-full -left-4 ring-8 ring-white dark:ring-slate-800 reveal" data-scroll-effect="zoom-in">
+                                <i data-feather="star" class="text-blue-500 dark:text-blue-400"></i>
+                            </span>
+                            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-md reveal" data-scroll-effect="slide-in-right">
+                                <h3 class="text-xl font-semibold text-slate-900 dark:text-slate-100">Internship</h3>
+                                <p class="text-blue-500 dark:text-blue-400 font-medium">6 Months</p>
+                                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">Rangamati General Hospital</p>
+                                <p class="mt-2 text-slate-600 dark:text-slate-400">Completed a rigorous internship program, further developing clinical skills and professional competence in a fast-paced environment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="education" class="py-20">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12 reveal reveal-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-slate-100">Educational Qualification</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2">My academic background and achievements.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 max-w-6xl xl:max-w-7xl mx-auto">
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all reveal" data-scroll-effect="slide-in-left">
+                        <div class="flex items-center gap-4 mb-3">
+                           <div class="bg-teal-100 dark:bg-teal-900/50 p-3 rounded-full"><i data-feather="award" class="text-teal-600 dark:text-teal-400"></i></div>
+                           <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">Diploma in Nursing Science & Midwifery</h3>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400">Rangamati Nursing Institute</p>
+                        <p class="text-slate-500 text-sm">Passing Year: 2025</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all reveal reveal-up">
+                        <div class="flex items-center gap-4 mb-3">
+                           <div class="bg-teal-100 dark:bg-teal-900/50 p-3 rounded-full"><i data-feather="book-open" class="text-teal-600 dark:text-teal-400"></i></div>
+                           <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">H.S.C (Business Studies)</h3>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400">Begum Badrunnessa Government Girls' College</p>
+                        <p class="text-slate-500 text-sm">Passing Year: 2020</p>
+                    </div>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all reveal" data-scroll-effect="slide-in-right">
+                       <div class="flex items-center gap-4 mb-3">
+                           <div class="bg-teal-100 dark:bg-teal-900/50 p-3 rounded-full"><i data-feather="edit-3" class="text-teal-600 dark:text-teal-400"></i></div>
+                           <h3 class="font-bold text-lg text-slate-800 dark:text-slate-100">S.S.C (Business Studies)</h3>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400">T&T Adarsha Girls' High School</p>
+                        <p class="text-slate-500 text-sm">Passing Year: 2018</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact" class="py-20 bg-slate-100 dark:bg-slate-800/50 transition-colors duration-500">
+            <div class="container mx-auto px-4 sm:px-6">
+                <div class="text-center mb-12 reveal reveal-up">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-800 dark:text-slate-100">Get In Touch</h2>
+                    <p class="text-slate-500 dark:text-slate-400 mt-2">Feel free to reach out to me.</p>
+                </div>
+                <div class="max-w-lg mx-auto bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-xl dark:shadow-2xl dark:shadow-slate-900/50 reveal" data-scroll-effect="zoom-in">
+                    <div class="flex flex-col gap-6">
+                        <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                           <i data-feather="mail" class="text-blue-500 dark:text-blue-400"></i>
+                           <div>
+                                <h4 class="font-semibold dark:text-slate-200">Email</h4>
+                                <a href="mailto:akterrubi592@gmail.com" class="text-blue-600 hover:underline dark:text-blue-400">akterrubi592@gmail.com</a>
+                           </div>
+                        </div>
+                         <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                           <i data-feather="phone" class="text-blue-500 dark:text-blue-400"></i>
+                           <div>
+                                <h4 class="font-semibold dark:text-slate-200">Phone</h4>
+                                <a href="tel:+8801618886008" class="text-blue-600 hover:underline dark:text-blue-400">+880 1618-886008</a>
+                           </div>
+                        </div>
+                         <div class="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                           <i data-feather="map-pin" class="text-blue-500 dark:text-blue-400"></i>
+                           <div>
+                                <h4 class="font-semibold dark:text-slate-200">Address</h4>
+                                <p class="text-slate-600 dark:text-slate-400">TB Gate, Wireless Mohakhali Dhaka 1212, Bangladesh</p>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 dark:bg-black text-white py-8">
+        <div class="container mx-auto px-4 sm:px-6 text-center">
+            <p>&copy; 2025 Rubi Akter. All Rights Reserved.</p>
+            <p class="text-sm text-slate-400 mt-2">Designed with passion.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+
+    <script>
+        // --- CORE FUNCTIONALITY ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+        
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var options = {
+                strings: ['Nursing Professional', 'Midwifery Student', 'Patient Care Advocate'],
+                typeSpeed: 50, backSpeed: 25, backDelay: 1500, startDelay: 500, loop: true,
+            };
+            var typed = new Typed('#typed-text', options);
+            feather.replace(); // Initialize icons after content loads
+        });
+
+        // --- THEME TOGGLE LOGIC ---
+        const themeToggleButton = document.getElementById('theme-toggle');
+        const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+        const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+        
+        function updateThemeIcons() {
+            if (document.documentElement.classList.contains('dark')) {
+                themeToggleDarkIcon.classList.add('hidden');
+                themeToggleLightIcon.classList.remove('hidden');
+            } else {
+                themeToggleDarkIcon.classList.remove('hidden');
+                themeToggleLightIcon.classList.add('hidden');
+            }
+        }
+        themeToggleButton.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+            updateThemeIcons();
+        });
+        updateThemeIcons();
+
+        // --- ADVANCED SCROLL EFFECTS ---
+        const header = document.getElementById('header');
+        const progressBar = document.getElementById('scroll-progress-bar');
+        const heroSection = document.getElementById('hero-section');
+        const reveals = document.querySelectorAll('.reveal');
+
+        function handleScroll() {
+            // 1. Header Shadow
+            header.classList.toggle('header-shadow', window.scrollY > 50);
+
+            // 2. Scroll Progress Bar
+            const scrollTop = document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            progressBar.style.width = scrollPercent + '%';
+            
+            // 3. Parallax Hero Background
+            heroSection.style.backgroundPosition = `center ${window.scrollY * 0.4}px`;
+
+            // 4. Reveal Animations
+            for (let i = 0; i < reveals.length; i++) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveals[i].getBoundingClientRect().top;
+                const elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+
+        // Initial check on load
+        handleScroll();
+        
+        // Listen for scroll events
+        window.addEventListener('scroll', handleScroll, { passive: true });
+    </script>
+</body>
+</html>
